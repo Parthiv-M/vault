@@ -10,6 +10,9 @@ on:
 
 jobs:
   build:
+    # Reuse the build workflow
+    uses: ./.github/workflows/build.yml
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository to the runner
