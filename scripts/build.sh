@@ -26,7 +26,7 @@ else
 	echo "Building image to $FILENAME ..."
 fi
 
-genisoimage -output $FILENAME -volid cidata -joliet -rock ubuntu-server-22-04-5/user-data ubuntu-server-22-04-5/meta-data 2>&1
+genisoimage -output $FILENAME -volid cidata -joliet -rock ../ubuntu-server-22-04-5/user-data ../ubuntu-server-22-04-5/meta-data 2>&1
 
 FILESIZE=$(stat -c %s $FILENAME 2>&1)
 COLUMNS=$(tput cols)
