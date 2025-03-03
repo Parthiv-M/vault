@@ -7,7 +7,7 @@ if [ -v CI ]; then
 	echo "We are in a CI/build environment."
 	FILENAME="vault-ubuntu-minimal.iso"
 else
-	IS_GIT=$(git rev-parse --is-inside-work-tree 2> /dev/null)
+	IS_GIT=$(git rev-parse --is-inside-work-tree 2>&1)
 	if [ $IS_GIT ]; then
 		GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 		GIT_COMMIT=$(git rev-parse --short HEAD)
@@ -26,9 +26,9 @@ else
 	echo "Building image to $FILENAME ..."
 fi
 
-genisoimage -output $FILENAME -volid cidata -joliet -rock ubuntu-server-22-04-5/user-data ubuntu-server-22-04-5/meta-data 2>build.log
+genisoimage -output $FILENAME -volid cidata -joliet -rock ubuntu-server-22-04-5/user-data ubuntu-server-22-04-5/meta-data 2>&1
 
-FILESIZE=$(stat -c %s $FILENAME 2>/dev/null)
+FILESIZE=$(stat -c %s $FILENAME 2>&1)
 COLUMNS=$(tput cols)
 if [[ $FILESIZE > 0 ]]; then
 	printf '%s (%d bytes) ... done!\n' $FILENAME $FILESIZE
