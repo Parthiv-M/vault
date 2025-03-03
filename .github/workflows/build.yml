@@ -18,4 +18,8 @@ jobs:
         run: chmod u+x build.sh
       - name: Run a script
         run: ./build.sh
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: vault-ubuntu-minimal.iso
 
