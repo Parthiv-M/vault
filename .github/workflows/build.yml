@@ -1,6 +1,13 @@
 name: build
 run-name: Build hardened ISO image
-on: push
+on:
+  workflow_call:
+  # Allows to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  push:
+    branches:
+      - '**'
+      - '!main'
 jobs:
   build:
     runs-on: ubuntu-latest
