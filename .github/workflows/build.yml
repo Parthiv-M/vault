@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Check out the repository to the runner
         uses: actions/checkout@v4
+      - name: Set TERM environment variable
+        run: echo "TERM=xterm" >> $GITHUB_ENV
       - name: Make the script executable
         run: chmod u+x build.sh
       - name: Run a script

@@ -5,7 +5,7 @@ FILENAME='init.iso'
 # if we are in a git repository, name the ISO after the branch, date, and short commit hash
 if [ -v CI ]; then
 	echo "We are in a CI/build environment."
-	FILENAME="$CI_COMMIT_REF_SLUG-init-$(date -u '+%Y%m%d').$CI_COMMIT_SHORT_SHA.iso"
+	FILENAME="vault-ubuntu-minimal.iso"
 else
 	IS_GIT=$(git rev-parse --is-inside-work-tree 2> /dev/null)
 	if [ $IS_GIT ]; then
