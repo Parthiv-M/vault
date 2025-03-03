@@ -1,6 +1,6 @@
 name: build
-run-name: Building hardened ISO images
-on: [push]
+run-name: Build hardened ISO image
+on: push
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,8 +18,8 @@ jobs:
         run: chmod u+x build.sh
       - name: Run a script
         run: ./build.sh
-      - name: Release
-        uses: softprops/action-gh-release@v2
+      - name: Store .iso
+        uses: actions/upload-artifact@v3
         with:
-          files: vault-ubuntu-minimal.iso
-
+          name: vault
+          path: vault-ubuntu-minimal.iso
