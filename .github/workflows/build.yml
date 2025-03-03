@@ -19,7 +19,7 @@ jobs:
       - name: Run a script
         run: ./build.sh
       - name: Store .iso
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vault
           path: vault-ubuntu-minimal.iso

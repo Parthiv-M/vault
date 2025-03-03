@@ -11,7 +11,7 @@ jobs:
       - name: Check out the repository to the runner
         uses: actions/checkout@v4
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: vault
       - name: Release .iso
