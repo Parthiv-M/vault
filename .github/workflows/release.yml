@@ -21,8 +21,8 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: vault
-      - name: Release .iso
+          name: vault-ubuntu-minimal
+      - name: Create a new release with latest images for all OSes
         uses: softprops/action-gh-release@v2
         with:
           files: vault-ubuntu-minimal.iso

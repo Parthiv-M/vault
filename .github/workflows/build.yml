@@ -1,4 +1,4 @@
-name: build
+name: with-cloud-init-conf
 run-name: Build hardened ISO image
 on:
   workflow_call:
@@ -8,25 +8,23 @@ on:
     branches:
       - '**'
       - '!main'
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./scripts
     steps:
       - name: Check out the repository to the runner
         uses: actions/checkout@v4
-      - name: Install genisoimage command
-        run: sudo apt install -y genisoimage
+      - name: Install dependent packages
+        run: sudo apt install -y p7zip-full p7zip-rar genisoimage fakeroot xorriso isolinux binutils squashfs-tools
       - name: Set TERM environment variable
         run: echo "TERM=xterm" >> $GITHUB_ENV
-      - name: Make the script executable
-        run: chmod u+x build.sh
-      - name: Run a script
-        run: ./build.sh
-      - name: Store .iso
+      - name: Make the build script executable
+        run: chmod u+x scripts/build.sh
+      - name: Run the build script
+        run: scripts/build.sh
+      - name: Upload the generated artifact
         uses: actions/upload-artifact@v4
         with:
-          name: vault
-          path: ./scripts/vault-ubuntu-minimal.iso
+          name: vault-ubuntu-minimal
+          path: vault-ubuntu-minimal.iso
