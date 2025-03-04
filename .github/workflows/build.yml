@@ -1,8 +1,7 @@
-name: with-cloud-init-conf
-run-name: Build hardened ISO image
+name: build
+run-name: Create patched ISO images
 on:
   workflow_call:
-  # Allows to run this workflow manually from the Actions tab
   workflow_dispatch:
   push:
     branches:
@@ -17,13 +16,13 @@ jobs:
         uses: actions/checkout@v4
       - name: Install dependent packages
         run: sudo apt install -y p7zip-full p7zip-rar genisoimage fakeroot xorriso isolinux binutils squashfs-tools
-      - name: Set TERM environment variable
-        run: echo "TERM=xterm" >> $GITHUB_ENV
+      # - name: Set TERM environment variable
+      #   run: echo "TERM=xterm" >> $GITHUB_ENV
       - name: Make the build script executable
         run: chmod u+x scripts/build.sh
       - name: Run the build script
         run: scripts/build.sh
-      - name: Upload the generated artifact
+      - name: Upload the vault-ubuntu-minimal artifact
         uses: actions/upload-artifact@v4
         with:
           name: vault-ubuntu-minimal

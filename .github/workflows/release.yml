@@ -1,16 +1,14 @@
-name: build
-run-name: Create new release
+name: release
+run-name: Create a new release
 
 on:
   push:
     tags:
       - "v*.*.*"
-  # Allows to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
   build:
-    # Reuse the build workflow
     uses: ./.github/workflows/build.yml
   release:
     needs: build
@@ -18,7 +16,7 @@ jobs:
     steps:
       - name: Check out the repository to the runner
         uses: actions/checkout@v4
-      - name: Download artifact
+      - name: Download the vault-ubuntu-minimal artifact
         uses: actions/download-artifact@v4
         with:
           name: vault-ubuntu-minimal
@@ -26,4 +24,3 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: vault-ubuntu-minimal.iso
-
