@@ -14,12 +14,10 @@ jobs:
     steps:
       - name: Check out the repository to the runner
         uses: actions/checkout@v4
-      - name: Install dependent packages
-        run: sudo apt install -y p7zip-full p7zip-rar genisoimage fakeroot xorriso isolinux binutils squashfs-tools
-      # - name: Set TERM environment variable
-      #   run: echo "TERM=xterm" >> $GITHUB_ENV
       - name: Make the build script executable
         run: chmod u+x scripts/build.sh
+      - name: Install dependent packages
+        run: sudo apt install -y p7zip-full p7zip-rar genisoimage fakeroot xorriso isolinux binutils squashfs-tools
       - name: Run the build script
         run: scripts/build.sh
       - name: Upload the vault-ubuntu-minimal artifact

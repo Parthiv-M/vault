@@ -18,31 +18,33 @@ assign_file_name () {
 # check if above arrays have same length
 
 build_linux_oses () {
-    declare -a linuximages=(
+    declare -a LINUXIMAGES=(
         "https://releases.ubuntu.com/22.04.5/ubuntu-22.04.5-live-server-amd64.iso"
     )
 
-    declare -a linuxosdirs=(
-        "ubuntu-server-22-04-5"
+    declare -a LINUXOSDIRS=(
+        # "ubuntu-server-22-04-5"
     )
 
-    declare -a vaultlinuxoses=(
+    declare -a VAULTLINUXOSES=(
         "vault-ubuntu-minimal"
     )
 
-    imageslength=${#linuximages[@]}
-    oseslength=${#linuxosdirs[@]}
+    IMAGESLENGTH=${#LINUXIMAGES[@]}
+    OSESLENGTH=${#LINUXOSDIRS[@]}
+    VAULTSLENGTH=${#VAULTLINUXOSES[@]}
 
-    # if the length check passes, install dependent packages
-    sudo apt install -y p7zip-full p7zip-rar genisoimage fakeroot xorriso isolinux binutils squashfs-tools
+    if [ $IMAGESLENGTH -ne $OSESLENGTH ] || [ $OSESLENGTH -ne $VAULTLINUXOSES ] || [ $IMAGESLENGTH -ne $VAULTLINUXOSES ]; then
+        echo "IMAGESLENGTH, OSESLENGTH, VAULTLINUXOSES are not of equal lengths. Recheck array entries."
+        exit 1
+    fi
 
-    # iterate over arrays
-    for (( i=0; i<${imageslength}; i++ ));
+    for (( i=0; i<${IMAGESLENGTH}; i++ ));
     do
-        TARGETFILENAME=$(assign_file_name "${vaultlinuxoses[$i]}")
+        TARGETFILENAME=$(assign_file_name "${VAULTLINUXOSES[$i]}")
         echo "Building $TARGETFILENAME..."
-        curl -X GET -OL ${linuximages[$i]}
-        SOURCEISO=${linuximages[$i]##*/}
+        curl -X GET -OL ${LINUXIMAGES[$i]}
+        SOURCEISO=${LINUXIMAGES[$i]##*/}
         echo $SOURCEISO
         7z x -y $SOURCEISO -oiso
 
@@ -52,11 +54,11 @@ build_linux_oses () {
         sed -i -e 's,---, ds=nocloud\\;s=/cdrom/nocloud/  ---,g' iso/boot/grub/loopback.cfg
 
         mkdir -p iso/nocloud
-        cp "${linuxosdirs[$i]}/meta-data" iso/nocloud/
-        cp "${linuxosdirs[$i]}/user-data" iso/nocloud/
+        cp "${LINUXOSDIRS[$i]}/meta-data" iso/nocloud/
+        cp "${LINUXOSDIRS[$i]}/user-data" iso/nocloud/
 
         xorriso -as mkisofs -r \
-            -V ${linuxosdirs[$i]} \
+            -V ${LINUXOSDIRS[$i]} \
             -o $TARGETFILENAME \
             -J \
             -c '/boot.catalog' \
