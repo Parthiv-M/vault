@@ -41,6 +41,7 @@ build_linux_oses () {
     for (( i=0; i<${imageslength}; i++ ));
     do
         TARGETFILENAME=$(assign_file_name "${vaultlinuxoses[$i]}")
+        echo "Building $TARGETFILENAME..."
         curl -X GET -OL ${linuximages[$i]}
         SOURCEISO=${linuximages[$i]##*/}
         echo $SOURCEISO
