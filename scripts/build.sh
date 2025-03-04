@@ -2,7 +2,6 @@
 
 assign_file_name () {
     if [ -v CI ]; then
-        echo "We are in a CI/build environment."
         FILENAME="$1.iso"
     else
         IS_GIT=$(git rev-parse --is-inside-work-tree 2>&1)
